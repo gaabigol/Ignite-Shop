@@ -7,6 +7,12 @@ export const HomeContainer = styled("main", {
   maxWidth: "calc(100vw - ((100vw - 1180px) / 2))",
   marginLeft: "auto",
   minHeight: 656,
+
+  "@media (max-width: 480px)": {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 
 export const Product = styled("a", {
@@ -60,5 +66,9 @@ export const Product = styled("a", {
       transform: "translateY(0%)",
       opacity: 1,
     },
+  },
+  "@media (max-width: 480px)": {
+    width: "90%",
+    marginBottom: "1rem",
   },
 });

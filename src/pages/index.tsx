@@ -1,10 +1,11 @@
 import { HomeContainer, Product } from "@/styles/pages/home";
 import { useKeenSlider } from "keen-slider/react";
 import { stripe } from "@/service/stripe";
+import { GetStaticProps } from "next";
 import "keen-slider/keen-slider.min.css";
 import Image from "next/image";
-import { GetStaticProps } from "next";
 import Stripe from "stripe";
+import React from "react";
 
 interface ProductProps {
   products: {
@@ -14,10 +15,32 @@ interface ProductProps {
     price: number;
   }[];
 }
+
 export default function Home({ products }: ProductProps) {
+  const [currentBreakpoint, setCurrentBreakpoint] = React.useState<number>(3);
+
+  React.useEffect(() => {
+    const resizeListener = () => {
+      if (window.innerWidth <= 480) {
+        setCurrentBreakpoint(1);
+      } else if (window.innerWidth <= 768) {
+        setCurrentBreakpoint(2);
+      } else {
+        setCurrentBreakpoint(3);
+      }
+    };
+
+    window.addEventListener("resize", resizeListener);
+    resizeListener();
+
+    return () => {
+      window.removeEventListener("resize", resizeListener);
+    };
+  }, []);
+
   const [sliderRef] = useKeenSlider({
     slides: {
-      perView: 3,
+      perView: currentBreakpoint,
       spacing: 48,
     },
   });
